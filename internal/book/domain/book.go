@@ -10,11 +10,11 @@ var ErrorISBNIsNotValid = errors.New("ISBN is not valid")
 
 type Book struct {
 	ID   BookID
-	ISBN ISBNNuber
+	ISBN ISBNNumber
 	Name BookName
 }
 
-func NewBook(isbn ISBNNuber, name BookName) (*Book, error) {
+func NewBook(isbn ISBNNumber, name BookName) (*Book, error) {
 	if isbn.IsValid() {
 		return &Book{
 			ID:   NewBookID(),
@@ -32,7 +32,11 @@ func NewBookID() BookID {
 	return BookID(uuid.New().String())
 }
 
-type ISBNNuber struct {
+func (b BookID) String() string {
+	return string(b)
+}
+
+type ISBNNumber struct {
 	Prefix        int
 	CountryCode   int
 	PublisherCode int
@@ -40,7 +44,7 @@ type ISBNNuber struct {
 	ControlNumber int
 }
 
-func (isbn *ISBNNuber) IsValid() bool {
+func (isbn *ISBNNumber) IsValid() bool {
 	if isbn.Prefix < 0 || isbn.Prefix > 999 {
 		return false
 	}

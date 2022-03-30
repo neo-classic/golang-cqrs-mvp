@@ -31,8 +31,9 @@ func main() {
 
 func publish(message string, producer sarama.SyncProducer) {
 	msg := &sarama.ProducerMessage{
-		Topic: topic,
-		Value: sarama.StringEncoder(message),
+		Topic:     topic,
+		Value:     sarama.StringEncoder(message),
+		Partition: 12,
 	}
 	p, o, err := producer.SendMessage(msg)
 	if err != nil {
